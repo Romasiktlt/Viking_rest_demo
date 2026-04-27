@@ -22,11 +22,24 @@ public class VikingService {
     }
 
     public Viking createRandomViking() {
-        
-
         Viking viking = vikingFactory.createRandomViking();
-
         vikings.add(viking);
         return viking;
+    }
+
+    public void addViking(Viking viking) {
+        vikings.add(viking);
+    }
+
+    public void deleteViking(int index) {
+        if (index >= 0 && index < vikings.size()) {
+            vikings.remove(index);
+        }
+    }
+
+    public void updateViking(int index, Viking updatedViking) {
+        if (index >= 0 && index < vikings.size()) {
+            vikings.set(index, updatedViking);
+        }
     }
 }

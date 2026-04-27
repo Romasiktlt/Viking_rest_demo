@@ -4,14 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.mephi.vikingdemo.model.Viking;
 import ru.mephi.vikingdemo.service.VikingService;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequestMapping("/api/vikings")
@@ -51,5 +48,35 @@ public class VikingController {
     @PostMapping("/post")
     public void addViking(){
         vikingListener.testAdd();
+    }
+
+    @PostMapping("/add")
+    @Operation(summary = "Добавить своего викинга", operationId = "addViking")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Викинг успешно добавлен")
+    })
+    public void addCustomViking(@RequestBody Viking viking) {
+        vikingService.addViking(viking);
+        vikingListener.onVikingAdded(viking);
+    }
+
+    @DeleteMapping("/{index}")
+    @Operation(summary = "Удалить викинга по индексу в таблице", operationId = "deleteViking")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Викинг успешно удален")
+    })
+    public void deleteViking(@PathVariable int index) {
+        vikingService.deleteViking(index);
+        vikingListener.onVikingDeleted(index);
+    }
+
+    @PutMapping("/{index}")
+    @Operation(summary = "Обновить параметры викинга по индексу", operationId = "changeParameter")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Параметры обновлены успешно")
+    })
+    public void updateViking(@PathVariable int index, @RequestBody Viking viking) {
+        vikingService.updateViking(index, viking);
+        vikingListener.onVikingUpdated(index, viking);
     }
 }

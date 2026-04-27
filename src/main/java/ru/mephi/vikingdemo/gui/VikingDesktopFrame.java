@@ -53,4 +53,8 @@ public class VikingDesktopFrame extends JFrame {
     public void addNewViking(Viking viking){
         tableModel.addViking(viking);
     }
+
+    public void removeVikingFromTable(int index) { tableModel.removeViking(index); }
+
+    public void updateVikingInTable(int index, Viking v) { tableModel.updateViking(index, v); }
 }
